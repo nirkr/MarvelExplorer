@@ -1,9 +1,32 @@
-import axios from "axios"
-import {ActorMovies} from '../types'
+import axios from "axios";
+import { ActorMovies, MultipleMatches } from "../types";
 
-const BASE_URL = `${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`
+const BASE_URL = `${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`;
 
-export const fetchMoviesPerActor = async(actorName: string): Promise<ActorMovies> => {
-    const response = await axios.get(`${BASE_URL}/moviesPerActor?q=${actorName}`)
-    return response.data
-}
+export const fetchMoviesPerActor = async (
+  actorName: string
+): Promise<ActorMovies> => {
+  console.log(actorName, BASE_URL);
+
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/moviesPerActor?q=${actorName}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    throw error;
+  }
+};
+export const fetchActorsCharactersPerMovies =
+  async (): Promise<MultipleMatches> => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/actorsWithMultipleCharacters`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+      throw error;
+    }
+  };

@@ -9,8 +9,10 @@ function App() {
     <styled.appWraper>
       <h1> Marvel Explorer </h1>
       <ActorMovies />
-      <ActorWithCharacters />
-      <CharactersWithActors />
+      <styled.combinationListWraper>
+        <ActorWithCharacters />
+        <CharactersWithActors />
+      </styled.combinationListWraper>
     </styled.appWraper>
   );
 }
