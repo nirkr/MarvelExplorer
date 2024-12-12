@@ -1,6 +1,6 @@
 import { HttpStatusCode } from "axios";
 import { DEPARTMENT } from "../constants";
-import { insertMoviesActorsCharacters, insertMoviesPerActor } from "../media-queries";
+import { insertMoviesPerActor } from "../media-queries";
 import {
   fetchActorsCharactersPerMovies,
   fetchMoviesPerActor,
