@@ -15,10 +15,10 @@ The Marvel Movie Data Explorer is a web application designed to explore Marvel m
 
 2. **Build and Start Services**: 
 - Build and start all services:
-   docker-compose up --build
+   - docker-compose up --build
 - install dependencies locally:
-    chmod +x install-dependencies.sh
-    ./install-dependencies.sh
+    - chmod +x install-dependencies.sh
+    - ./install-dependencies.sh
 
 3. **Set env varibles** - create .env file in the root level of the project. here are the env vars:
 - SERVER_PORT=5000
