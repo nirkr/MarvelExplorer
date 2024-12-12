@@ -1,4 +1,4 @@
-import { ActorResponse } from "../types";
+import { ActorResponse, MovieDetailsResponse } from "../types";
 import axios, { AxiosRequestConfig } from "axios";
 
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -18,4 +18,19 @@ export const fetchMoviesPerActor = async (
   return res.data;
 };
 
-// https://api.themoviedb.org/3/person/{person_id}/movie_credits
+export const fetchActorsCharactersPerMovies = async (
+  movies: string[]
+): Promise<MovieDetailsResponse[]> => {
+  const creditPromises = movies.map(async (movieId) => {
+    const axiosRequest: AxiosRequestConfig = {
+      url: `${BASE_URL}/movie/${movieId}/credits`,
+      headers: {
+        Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+      },
+    };
+    const response = await axios(axiosRequest);
+    return response.data;
+  });
+  
+  return await Promise.all(creditPromises);
+};

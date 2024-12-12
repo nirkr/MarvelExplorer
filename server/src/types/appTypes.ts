@@ -4,10 +4,6 @@ export type ControllerResponse<T> = {
   error?: Error;
 };
 
-export type Actor = {
-  id: number
-  name: string
-}
 export type Movie = {
   id: number
   title: string
@@ -18,18 +14,38 @@ export type ActorMovies = {
   movies: Movie[];
 };
 
-type MovieCharacterObj = {
-  movieName: string;
-  actorName: string;
-};
-type MovieActorObj = {
-  movieName: string;
-  actorName: string;
+export type MultipleMatches = {
+  actors: ActorWithMultipleCharacters[];
+  characters: CharacterWithMultipleActors[];
 };
 
-export type ActorMovieCharacters = { // characters per actor
-  actorName: MovieCharacterObj[];
+// helper types
+
+type Actor = {
+  id: number
+  name: string
+}
+
+type MovieCharacter = {
+  movieId: number; 
+  name: string;
+  character: string;
 };
-export type CharcterMovieActors = { // actors per character
-  characterName: MovieActorObj[];
+
+
+ type MovieActor = {
+  name: string;
+  actor: string;
+};
+
+
+type ActorWithMultipleCharacters = {
+  actor: string;
+  movieCharacters: MovieCharacter[];
+};
+
+
+type CharacterWithMultipleActors = {
+  character: string;
+  movieActors: MovieActor[];
 };

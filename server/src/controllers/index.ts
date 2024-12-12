@@ -1,9 +1,17 @@
 import { HttpStatusCode } from "axios";
-import { insertMoviesPerActor } from "../media-queries";
-import { fetchMoviesPerActor } from "../services";
-import { ControllerResponse, ActorMovies, Movie } from "../types/appTypes";
-
-const DEPARTMENT = "Acting";
+import { DEPARTMENT } from "../constants";
+import { insertMoviesActorsCharacters, insertMoviesPerActor } from "../media-queries";
+import {
+  fetchActorsCharactersPerMovies,
+  fetchMoviesPerActor,
+} from "../services";
+import {
+  ControllerResponse,
+  ActorMovies,
+  Movie,
+  MultipleMatches,
+} from "../types/appTypes";
+import { findActorsWithMultipleCharacters } from "../utils";
 
 export const getMoviesPerActor = async (
   actorName: string
@@ -32,9 +40,53 @@ export const getMoviesPerActor = async (
           })
           ?.filter((movie): movie is Movie => movie.id !== undefined) || [],
     };
-    
+
     await insertMoviesPerActor(mappedMoviesPerActor);
     return { data: mappedMoviesPerActor, status: HttpStatusCode.Ok };
+  } catch (error: any) {
+    return { error: error.message, status: HttpStatusCode.InternalServerError };
+  }
+};
+
+export const getActorsCharactersPerMovies = async (
+  movies: string[]
+): Promise<ControllerResponse<MultipleMatches>> => {
+  try {
+    const movieDetails = await fetchActorsCharactersPerMovies(movies);
+    // actorMap plays here in two tasks: 1. find the multiple character matches 2. have all the ids for writing to the DB
+    const { actorMap, characterMap } =
+      findActorsWithMultipleCharacters(movieDetails);
+
+    const actorsWithMultipleCharacters = [...actorMap].reduce(
+      (acc, [_actorName, details]) => {
+        if (details.movieCharacters.size > 1) {
+          acc.push({
+            actor: details.name,
+            movieCharacters: Array.from(details.movieCharacters),
+          });
+        }
+        return acc;
+      },
+      [] as any
+    );
+
+    const charactersWithMultipleActors = [...characterMap].reduce(
+      (acc, [character, details]) => {
+        if (details.movieActors.size > 1) {
+          acc.push({ character, movieActors: Array.from(details.movieActors) });
+        }
+        return acc;
+      },
+      [] as any
+    );
+
+    const fomattedResponse: MultipleMatches = {
+      actors: actorsWithMultipleCharacters,
+      characters: charactersWithMultipleActors,
+    };
+    
+    // await insertMoviesActorsCharacters(actorMap) => need to write to DB (to the 4 tables , including the linked table)
+    return { status: HttpStatusCode.Ok, data: fomattedResponse };
   } catch (error: any) {
     return { error: error.message, status: HttpStatusCode.InternalServerError };
   }

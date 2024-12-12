@@ -36,8 +36,8 @@ services:
       context: ./client                     # Path to Dockerfile of client
     container_name: client
     environment:
-      SERVER_HOST: ${SERVER_HOST}
-      SERVER_PORT: ${SERVER_PORT}
+      REACT_APP_SERVER_HOST: ${REACT_APP_SERVER_HOST}
+      REACT_APP_SERVER_PORT: ${REACT_APP_SERVER_PORT}
     ports:
       - "3000:3000"                        # Map client port
     depends_on:
