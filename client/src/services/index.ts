@@ -6,7 +6,6 @@ const BASE_URL = `${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_S
 export const fetchMoviesPerActor = async (
   actorName: string
 ): Promise<ActorMovies> => {
-  console.log(actorName, BASE_URL);
 
   try {
     const response = await axios.get(

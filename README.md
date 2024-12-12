@@ -16,17 +16,20 @@ The Marvel Movie Data Explorer is a web application designed to explore Marvel m
 2. **Build and Start Services**: 
 - Build and start all services:
    docker-compose up --build
+- install dependencies locally:
+    chmod +x install-dependencies.sh
+    ./install-dependencies.sh
 
 3. **Set env varibles** - create .env file in the root level of the project. here are the env vars:
-        SERVER_PORT=5000
-        TMDB_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYmY4MGZkNDk2ZTNiNTJjYzg2ZmYyM2U5ZGFlNThhZSIsIm5iZiI6MTczMzgyNjk0Ni40MjEsInN1YiI6IjY3NTgxOTgyMTU0NDIwMTFmZmU4MjA3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tC8Q_bosTTEnkZkKQKzvnb3GcWy52cPQFGH6G48eIW4
-        DB_HOST=db
-        DB_USER=root
-        DB_PASSWORD=root
-        DB_DATABASE=postgres
-        DB_PORT=5432
-        REACT_APP_SERVER_HOST=http://localhost
-        REACT_APP_SERVER_PORT=5000`
+SERVER_PORT=5000
+TMDB_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYmY4MGZkNDk2ZTNiNTJjYzg2ZmYyM2U5ZGFlNThhZSIsIm5iZiI6MTczMzgyNjk0Ni40MjEsInN1YiI6IjY3NTgxOTgyMTU0NDIwMTFmZmU4MjA3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tC8Q_bosTTEnkZkKQKzvnb3GcWy52cPQFGH6G48eIW4
+DB_HOST=db
+DB_USER=root
+DB_PASSWORD=root
+DB_DATABASE=postgres
+DB_PORT=5432
+REACT_APP_SERVER_HOST=http://localhost
+REACT_APP_SERVER_PORT=5000`
 
 4. **Access the Application**:
 - **Frontend**: Visit `http://localhost:3000` in your web browser to access the user interface.
