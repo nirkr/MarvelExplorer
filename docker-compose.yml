@@ -5,11 +5,11 @@ services:
     image: postgres:latest
     container_name: postgres_db
     environment:
-      POSTGRES_USER: root              # Set your PostgreSQL username
-      POSTGRES_PASSWORD: root      # Set your PostgreSQL password
-      POSTGRES_DB: postgres            # Set your initial database name
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - "5432:5432"                          # Expose the PostgreSQL port
+      - "${DB_PORT}:5432"                          
     volumes:
       - pg_data:/var/lib/postgresql/data   # Persist data using Docker volumes
       - ./server/src/sql/init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount SQL script
@@ -20,7 +20,12 @@ services:
       context: ./server                     # Path to Dockerfile of server
     container_name: server
     environment:
-      DATABASE_URL: postgres://root:root@db:5432/postgres  # URL to connect to PostgreSQL
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      TMDB_TOKEN: ${TMDB_TOKEN}
     ports:
       - "5000:5000"                        # Map server port
     depends_on:
@@ -30,6 +35,9 @@ services:
     build:
       context: ./client                     # Path to Dockerfile of client
     container_name: client
+    environment:
+      SERVER_HOST: ${SERVER_HOST}
+      SERVER_PORT: ${SERVER_PORT}
     ports:
       - "3000:3000"                        # Map client port
     depends_on:

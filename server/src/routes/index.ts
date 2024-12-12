@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/moviesPerActor", async (req: Request, res: Response) => {
 const { q: actorName }  = req.query
   const response = await getMoviesPerActor(actorName as string)
-  res.status(response.status).send(response.data) // Placeholder
+  res.status(response.status).send(response.data || response.error) // Placeholder
 });
 
 router.get("/actorsWithMultipleCharacters", (req: Request, res: Response) => {

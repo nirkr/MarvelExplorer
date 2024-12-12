@@ -7,8 +7,7 @@ CREATE TABLE IF NOT EXISTS actors (
 -- Create the movies table
 CREATE TABLE IF NOT EXISTS movies (
     movie_id INT PRIMARY KEY,
-    movie_name VARCHAR(255) NOT NULL,
-    release_year INT
+    movie_title VARCHAR(255) NOT NULL
 );
 
 -- Create the characters table

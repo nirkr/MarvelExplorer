@@ -4,9 +4,18 @@ export type ControllerResponse<T> = {
   error?: Error;
 };
 
+export type Actor = {
+  id: number
+  name: string
+}
+export type Movie = {
+  id: number
+  title: string
+}
+
 export type ActorMovies = {
-  actorName: string
-  movies: string[];
+  actor: Actor
+  movies: Movie[];
 };
 
 type MovieCharacterObj = {

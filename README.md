@@ -33,6 +33,8 @@ The Marvel Movie Data Explorer is a web application designed to explore Marvel m
     - React.js
     - TypeScript - same reasons as backend. both frontend and backend use similar types and promise responses help create strong front-back end interfaces
     - react-query - using useQuery for HTTP requests to the server - enable request caching
+    - css framework - stiches library (works like styled-components)
+    - component library - material UI - work with prepared components (button, list etc.)
 - **Containerization**: Docker and Docker-Compose
 
 ## Assumptions and Design Decisions
@@ -52,6 +54,16 @@ c. **Characters Table**: Contains character information (id, name).
 d. **Movie_Actor_Character Table** establishes a `many-to-many` relationship between actors, movies, and characters. 
     using `ON DELETE CASCADE` feature, to ensures that when a record in the primary tables is deleted, all related records in the linking table are automatically removed for consistency.
 
+3. **Backend assumptions**:
+    - movies per actor - passing actor name as query string to fetch the movies per actor
+        - In the future can enhance the api to support multiple actors in the input
+        - If there is multiple matches for the specific actor name => fetch the most popular one (based on the popularity attribute in the api response)
+
+    - logging - would implement winston logger to handle logs of the operations
+    - DB insertions 
+        - if value(movie/actor/character) exists, ON CONFLICT DO NOTHING
+    - each controller request will return object of { status, data, error }
+
 3. **Caching Considerations**:
 - A caching layer could be added (e.g., using Redis) to improve performance by storing frequently requested data temporarily, reducing database load and API calls.
 
@@ -60,20 +72,23 @@ d. **Movie_Actor_Character Table** establishes a `many-to-many` relationship bet
     -  caching results where feasible and using database storage for repeated queries
     -  reducing request amount by using the relevant api requests, while matching the application requirements (show the relations of movies / actors / characters )
 
-5. **Frontend-Backend Interaction**:
-- The React frontend interacts with the Node.js backend via RESTful APIs, fetching data based on user interactions such as selecting an actor or character. This setup facilitates clear separation of concerns and modularity.
-- using use-query infra - for cached requests
+5. **Frontend assumptions**:
+    - handling isLoading for api requests - FUTURE => create isLoading Progress component to render for case of waiting for data from the server
 
-6. **Extensibility**: `?????`
+6. **Frontend-Backend Interaction**:
+- using use-query infra - for cached requests
+- FUTURE - in manner of can create one place for mutual types, and then both server and client can use the very same type (such as ActorMovies)
+
+7. **Extensibility**: `?????`
 - The application is architected with scalability in mind, allowing future expansion, such as supporting a larger dataset or adding more features, to be more straightforward.
 
-7. **Dockerization**:
+8. **Dockerization**:
 - The app is dockerized and easy to install and use on various machines. these are the docker containers:
     - client service
     - server service
     - postgress database
 all is maintained and built easily running the docker-compose orchestrator
 
-8. **Deployment**
-    - ci/cd
-    - manage deployment pipelines
+9. **Deployment** - options for FUTURE
+    - ci/cd - manage deployment pipelines
+    - manage env vars in github actions
