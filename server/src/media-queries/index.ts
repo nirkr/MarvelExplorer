@@ -1,5 +1,5 @@
-import { ActorMovies } from "./../types";
-import { executeQuery } from "./../db/index";
+import { ActorMovies } from "../types";
+import { executeQuery } from "../db/index";
 
 export const insertMoviesPerActor = async (actorMovies: ActorMovies) => {
   try {
